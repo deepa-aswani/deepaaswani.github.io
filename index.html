@@ -39,8 +39,9 @@
       border-bottom: 1px solid var(--border);
     }
     .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.25rem; font-weight: 600; letter-spacing: 0.04em;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; font-weight: 500; letter-spacing: 0.22em;
+      text-transform: uppercase;
       color: var(--ink); text-decoration: none;
     }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
@@ -430,27 +431,107 @@
       color: var(--gold); font-weight: 300; min-height: 1.2rem;
     }
 
+    /* ── HAMBURGER ── */
+    .nav-hamburger {
+      display: none; flex-direction: column; justify-content: center;
+      gap: 5px; cursor: pointer; padding: 0.25rem;
+      background: none; border: none;
+    }
+    .nav-hamburger span {
+      display: block; width: 22px; height: 1.5px;
+      background: var(--ink); transition: all 0.3s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
-      nav { padding: 1rem 2rem; }
-      .hero { grid-template-columns: 1fr; }
-      .hero-left { padding: 5rem 2rem 2rem; }
+      /* Nav */
+      nav { padding: 1rem 1.5rem; }
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none; flex-direction: column; gap: 0;
+        position: fixed; top: 56px; left: 0; right: 0;
+        background: var(--ivory); border-bottom: 1px solid var(--border);
+        padding: 0; z-index: 99;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li { border-bottom: 1px solid var(--border); }
+      .nav-links a {
+        display: block; padding: 1rem 1.5rem;
+        font-size: 0.78rem; letter-spacing: 0.12em;
+      }
+
+      /* Hero */
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 6rem 1.5rem 2rem; }
       .hero-left::after { display: none; }
-      .hero-right { padding: 2rem; flex-direction: row; flex-wrap: wrap; }
-      .stat-card { flex: 1; min-width: 160px; }
-      section { padding: 5rem 2rem; }
-      .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
-      .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .hero-right {
+        padding: 0 1.5rem 3rem;
+        flex-direction: row; flex-wrap: wrap; gap: 1rem;
+      }
+      .stat-card { flex: 1; min-width: 140px; padding: 1.25rem; }
+      .stat-number { font-size: 2.2rem; }
+
+      /* Sections */
+      section { padding: 4rem 1.5rem; }
+
+      /* About */
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-photo { width: 100px; height: 100px; }
+
+      /* Experience */
+      .exp-item { grid-template-columns: 1fr; gap: 0.25rem; padding: 2rem 0; }
+      .exp-meta { display: flex; gap: 1rem; align-items: baseline; flex-wrap: wrap; }
+      .exp-period { margin-bottom: 0; }
+      .exp-title { font-size: 1.3rem; }
+
+      /* AI panel */
       .ai-highlight-body { grid-template-columns: 1fr; }
-      .ai-highlight-text { border-right: none; border-bottom: 1px solid rgba(184,151,90,0.2); }
+      .ai-highlight-text {
+        border-right: none;
+        border-bottom: 1px solid rgba(184,151,90,0.2);
+        padding: 1.25rem;
+      }
       .ai-highlight-metrics { flex-direction: row; flex-wrap: wrap; }
-      .ai-metric { flex: 1; min-width: 140px; border-bottom: none; border-right: 1px solid rgba(184,151,90,0.15); }
+      .ai-metric {
+        flex: 1; min-width: 130px;
+        border-bottom: none;
+        border-right: 1px solid rgba(184,151,90,0.15);
+        padding: 1rem;
+      }
       .ai-metric:last-child { border-right: none; }
+      .ai-metric-number { font-size: 1.6rem; }
+
+      /* Grids */
       .pub-grid { grid-template-columns: 1fr; }
       .awards-grid { grid-template-columns: 1fr; }
       .vol-grid { grid-template-columns: 1fr; }
-      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem; }
-      .skills-section { padding: 3rem 2rem; }
+      .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+
+      /* Skills */
+      .skills-section { padding: 2.5rem 1.5rem; }
+
+      /* Form */
+      .form-submit { width: 100%; justify-content: center; padding: 1rem; }
+
+      /* Footer */
+      footer {
+        flex-direction: column; gap: 0.75rem;
+        text-align: center; padding: 1.5rem;
+      }
+
+      /* h2 */
+      h2 { margin-bottom: 2rem; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-right { flex-direction: column; }
+      .stat-card { min-width: unset; width: 100%; }
+      .ai-metric { min-width: 100px; }
+      .exp-bullets li { font-size: 0.85rem; }
+      .about-text p { font-size: 0.95rem; }
     }
   </style>
 </head>
@@ -459,14 +540,17 @@
   <!-- NAV -->
   <nav>
     <a class="nav-logo" href="#">Deepa Aswani</a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#ai-innovation">AI Innovation</a></li>
-      <li><a href="#publications">Publications</a></li>
-      <li><a href="#awards">Recognition</a></li>
-      <li><a href="#giving-back">Giving Back</a></li>
-      <li><a href="#contact">Contact</a></li>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about" class="nav-close">About</a></li>
+      <li><a href="#experience" class="nav-close">Experience</a></li>
+      <li><a href="#ai-innovation" class="nav-close">AI Innovation</a></li>
+      <li><a href="#publications" class="nav-close">Publications</a></li>
+      <li><a href="#awards" class="nav-close">Recognition</a></li>
+      <li><a href="#giving-back" class="nav-close">Giving Back</a></li>
+      <li><a href="#contact" class="nav-close">Contact</a></li>
     </ul>
   </nav>
 
@@ -600,7 +684,7 @@
             <div class="ai-highlight-body">
               <div class="ai-highlight-text">
                 <p>Conceived and led development of the <strong>AI-CDK (AI Content Development Kit)</strong> — a purpose-built toolchain that fundamentally modernizes how Salesforce's 22,000-person Technology & Product organization authors, reviews, and publishes content at scale.</p>
-                <p>Championed a <strong>Docs as Code</strong> movement that transitioned the full organization to a Markdown/Git-based authoring model, putting Salesforce's content infrastructure on a foundation of AI-readiness no other internal knowledge management system had previously achieved.</p>
+                <p>Championed a <strong>Docs-as-Code</strong> movement that transitioned the full organization to a Markdown/Git-based authoring model, putting Salesforce's content infrastructure on a foundation of AI-readiness no other internal knowledge management system had previously achieved.</p>
                 <p>Redesigned the <strong>Content Development Lifecycle (CDLC)</strong> end-to-end — introducing AI-assisted drafting, automated style guide verification, and instant review recommendations — eliminating 100% of traditional review costs and collapsing the review SLA from 24 hours to immediate feedback.</p>
                 <p>Partners with the <strong>Developer Experience (DX) organization</strong> to directly reduce support costs across the infrastructure and application paved paths and SDLC — making it easier for service owners to onboard, operate, and self-serve without escalation.</p>
                 <p>Launched an <strong>AI Center</strong> — a curated internal content hub delivering AI enablement resources for all 80,000+ Salesforce employees, with content tailored to the specific tools engineers use internally, including Cursor, Claude, Gemini, and Notebook LM.</p>
@@ -926,6 +1010,21 @@
   </footer>
 
   <script>
+    // Hamburger menu
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('nav-links');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-close').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navLinks.classList.remove('open');
+      });
+    });
+
+    // Contact form
     function handleFormSubmit() {
       const email   = document.getElementById('sender-email').value.trim();
       const subject = document.getElementById('msg-subject').value.trim();
